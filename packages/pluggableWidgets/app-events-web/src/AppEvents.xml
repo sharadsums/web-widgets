@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="com.mendix.widget.web.appevents.Appevents" pluginWidget="true" offlineCapable="true" supportedPlatform="Web" xmlns="http://www.mendix.com/widget/1.0/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mendix.com/widget/1.0/ ../node_modules/mendix/custom_widget.xsd">
+    <name>App events</name>
+    <description>App events</description>
+    <helpUrl>https://docs.mendix.com/appstore/widgets/appevents</helpUrl>
+    <properties>
+        <propertyGroup caption="App events">
+            <!-- OPTIONS SOURCE -->
+            <propertyGroup caption="Component load">
+                <property key="onComponentLoad" type="action" required="false">
+                    <caption>Action</caption>
+                    <description />
+                </property>
+                <property key="componentLoadDelay" type="integer" required="true" defaultValue="0">
+                    <caption>Delay</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+            <propertyGroup caption="On change">
+                <property key="attributeEvent" type="attribute" required="false">
+                    <caption>Attribute</caption>
+                    <description />
+                    <attributeTypes>
+                        <attributeType name="AutoNumber" />
+                        <attributeType name="Binary" />
+                        <attributeType name="Boolean" />
+                        <attributeType name="DateTime" />
+                        <attributeType name="Enum" />
+                        <attributeType name="HashString" />
+                        <attributeType name="Integer" />
+                        <attributeType name="Long" />
+                        <attributeType name="String" />
+                        <attributeType name="Decimal" />
+                    </attributeTypes>
+                </property>
+                <property key="onAttributeEventChange" type="action" required="false">
+                    <caption>Action</caption>
+                    <description />
+                </property>
+                <property key="onAttributeEventChangeDelay" type="integer" required="true" defaultValue="0">
+                    <caption>Delay</caption>
+                    <description />
+                </property>
+            </propertyGroup>
+            <!-- END OPTIONS SOURCE -->
+        </propertyGroup>
+    </properties>
+</widget>
