@@ -56,6 +56,7 @@ function Container(props: Props): ReactElement {
         name: props.name,
         offset: props.datasource.offset,
         limit: props.datasource.limit,
+
         updateDataSource: useCallback<UpdateDataSourceFn>(
             ({ offset, limit, reload }) => {
                 if (offset != null) {
@@ -229,8 +230,9 @@ function Container(props: Props): ReactElement {
             numberOfItems={props.datasource.totalCount}
             onExportCancel={abort}
             page={currentPage}
-            paginationType={props.pagination}
             pageSize={props.pageSize}
+            paginationType={props.pagination}
+            customMessage={props.customMessage?.value}
             paging={useShowPagination({
                 pagination: props.pagination,
                 showPagingButtons: props.showPagingButtons,
