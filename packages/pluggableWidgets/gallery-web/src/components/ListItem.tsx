@@ -1,29 +1,28 @@
 import classNames from "classnames";
 import { ObjectItem } from "mendix";
-import { useMemo, createElement, ReactElement } from "react";
-import { GalleryItemHelper } from "../typings/GalleryItem";
-import { ItemSelectHelper } from "../helpers/ItemSelectHelper";
+import { createElement, ReactElement, useMemo, RefObject } from "react";
+import { useFocusTargetProps } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetProps";
+import { PositionInGrid } from "@mendix/widget-plugin-grid/selection";
 import { getAriaProps } from "../features/item-interaction/get-item-aria-props";
+import { SelectActionHelper } from "../helpers/SelectActionHelper";
+import { GalleryItemHelper } from "../typings/GalleryItem";
 import { ItemEventsController } from "../typings/ItemEventsController";
 
 type ListItemProps = Omit<JSX.IntrinsicElements["div"], "ref" | "role"> & {
+    eventsController: ItemEventsController;
+    getPosition: (index: number) => PositionInGrid;
     helper: GalleryItemHelper;
     item: ObjectItem;
-    selectHelper: ItemSelectHelper;
-    eventsController: ItemEventsController;
+    itemIndex: number;
+    selectHelper: SelectActionHelper;
 };
 
-export function ListItem({
-    children,
-    className,
-    helper,
-    item,
-    selectHelper,
-    eventsController,
-    ...rest
-}: ListItemProps): ReactElement {
+export function ListItem(props: ListItemProps): ReactElement {
+    const { eventsController, getPosition, helper, item, itemIndex, selectHelper, ...rest } = props;
     const clickable = helper.hasOnClick(item) || selectHelper.selectionType !== "None";
     const ariaProps = getAriaProps(item, selectHelper);
+    const { columnIndex, rowIndex } = getPosition(itemIndex);
+    const keyNavProps = useFocusTargetProps({ columnIndex: columnIndex ?? -1, rowIndex });
     const handlers = useMemo(() => eventsController.getProps(item), [eventsController, item]);
 
     return (
@@ -39,11 +38,13 @@ export function ListItem({
             )}
             {...ariaProps}
             onClick={handlers.onClick}
-            onDoubleClick={handlers.onDoubleClick}
             onFocus={handlers.onFocus}
             onKeyDown={handlers.onKeyDown}
             onKeyUp={handlers.onKeyUp}
             onMouseDown={handlers.onMouseDown}
+            data-position={keyNavProps["data-position"]}
+            ref={keyNavProps.ref as RefObject<HTMLDivElement>}
+            tabIndex={keyNavProps.tabIndex}
         >
             {helper.render(item)}
         </div>

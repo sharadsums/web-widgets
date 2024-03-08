@@ -15,7 +15,7 @@ export function getFullImageName(name, mendixVersion) {
 export async function buildImage(name, mendixVersion) {
     const image = getFullImageName(name, mendixVersion);
     const dockerDir = fileURLToPath(new URL("../docker", import.meta.url));
-    const dockerFile = p.join(dockerDir, `${name}.Dockerfile`);
+    const dockerFile = p.join(dockerDir, process.env.RC ? `${name}RC.Dockerfile`:`${name}.Dockerfile` );
     const runnumber = process.env.CI && process.env.GITHUB_RUN_ID;
 
     const args = [
@@ -52,6 +52,7 @@ export function createDeploymentBundle(mxbuildImage, projectFile) {
     console.log(`Start building deployment bundle.`);
 
     const mprPath = `/source/${projectFile}`;
+    const modernClient = process.env.MODERN_CLIENT || "";
 
     const subCommands = [
         // 1. Update widgets in project.
@@ -60,7 +61,7 @@ export function createDeploymentBundle(mxbuildImage, projectFile) {
         //      a. Check errors.
         //      b. Prepare `deployment` dir for mxruntime.
         // Output file is not used, so put it to tmp.
-        `mxbuild --output=/tmp/automation.mda ${mprPath}`
+        `mxbuild ${modernClient} --output=/tmp/automation.mda ${mprPath}`
     ];
     const args = [
         `--tty`,

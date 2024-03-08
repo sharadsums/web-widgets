@@ -12,7 +12,7 @@ import { ColumnPreview } from "./helpers/ColumnPreview";
 import { ColumnId } from "./typings/GridColumn";
 import * as Grid from "./typings/GridModel";
 import { useSelectActionHelper } from "./helpers/SelectActionHelper";
-import { useFocusTargetController } from "./features/keyboard-navigation/useFocusTargetController";
+import { useFocusTargetController } from "@mendix/widget-plugin-grid/keyboard-navigation/useFocusTargetController";
 
 // Fix type definition for Selectable
 // TODO: Open PR to fix in appdev.
@@ -149,8 +149,8 @@ export function preview(props: DatagridPreviewProps): ReactElement {
             page={0}
             paginationType={props.pagination}
             pageSize={props.pageSize ?? 5}
-            loadMoreButtonCaption={props.loadMoreButtonCaption}
-            paging={false}
+            loadMoreMessage={props.loadMoreMessage}
+            paging={props.pagination === "buttons"}
             pagingPosition={props.pagingPosition}
             preview
             processedRows={0}
